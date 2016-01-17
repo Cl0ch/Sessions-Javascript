@@ -86,4 +86,4 @@ alert(getRandomMinMax(1,4));
 <button onclick="attaque()">Attaque</button>
 <button onclick="soin()">Soin</button>
 
-<img src="http://www.planet-mammiferes.org/Photos/Ongule/Gazelle/Ourebi4.jpg"/>
+<img src="http://www.planet-mammiferes.org/Photos/Ongule/Gazelle/Ourebi4.jpg" width="150px"/>
