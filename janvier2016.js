@@ -80,3 +80,10 @@ alert(getRandomMinMax(1,4));
 </script>
 <button onclick="attaque()">Attaque</button>
 <button onclick="soin()">Soin</button>
+3.
+</script>
+
+<button onclick="attaque()">Attaque</button>
+<button onclick="soin()">Soin</button>
+
+<img src="http://www.planet-mammiferes.org/Photos/Ongule/Gazelle/Ourebi4.jpg"/>
