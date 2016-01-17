@@ -1,3 +1,4 @@
+1.
 <script>
 
 // PV veut dire Points de Vie
@@ -32,3 +33,4 @@ function soin() {
 </script>
 <button onclick="attaque()">Attaque</button>
 <button onclick="soin()">Soin</button>
+2.
