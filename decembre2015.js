@@ -8,7 +8,7 @@ var soins = 2;
 function attaque() {
     PV = PV-degats;
     if(PV <= 0){
-        alert("Le monstre est mort ! :-)");
+        alert("Le monstre est mort !");
     }
     else {
         alert("Le monstre a perdu "+degats+" PV. Il lui en reste "+PV);
