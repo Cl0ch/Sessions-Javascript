@@ -1,0 +1,193 @@
+<style type="text/css">
+	body {background: #000;}
+	#conteneur {width: 400px;height: 300px;border: 1px solid #333;
+    			margin: 0 auto;background: #FFF;text-align: center;}
+	h1 {text-align: center;font-variant: small-caps;color: #FFF;}
+	p {text-align: center;font-variant: small-caps;color: #FFF;}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+	// Constantes du jeu
+
+	// Largeur du jeu
+	var ZONE_JEU_WIDTH = 400;
+	// Hauteur du jeu
+	var ZONE_JEU_HEIGHT = 300;
+
+	// Variables
+	var context;
+	var boucleJeu;
+    var carre_largeur = 10;
+    var carre_hauteur = 10;
+    var carreX;
+    var carreY; 
+    var serpent_largeur = 10;
+    var serpent_longueur = 50;
+    var serpentX;
+    var serpentY;
+    var orientation = "droite";
+    var snaker;
+    
+    var snakePart = function(xInit,yInit)
+    {
+    	this.x = xInit;
+        this.y = yInit;
+    }
+    
+    var snake = function()
+    {
+    	this.pos = new snakePart();
+        this.body = [];
+    }
+   
+
+	window.addEventListener('load', function () {
+	    // On récupère l'objet canvas pour dessiner dedans
+	    context = document.getElementById('canvasElem').getContext('2d');
+        window.document.onkeydown = deplacement;
+        
+        SnakeInit();
+
+	    // Boucle de rafraichissement du contexte 2D
+	    boucleJeu = setInterval(refreshGame, 1000);
+	}, false);
+    
+    function SnakeInit() 
+    {
+    	snaker = new snake();
+    
+    	/*serpentX = 0;
+        serpentY = 0;
+        context.fillStyle = "green";
+	    context.fillRect(serpentX,serpentY,serpent_longueur,serpent_largeur);
+        */
+        orientation = "droite";
+
+        snaker.body[0] = new snakePart(40,0);
+        snaker.body[1] = new snakePart(30,0);
+        snaker.body[2] = new snakePart(20,0);
+        snaker.body[3] = new snakePart(10,0);
+        snaker.body[4] = new snakePart(0,0);
+        
+        context.fillStyle = "green";
+	    context.fillRect(snaker.body[0].x, snaker.body[0].y,carre_hauteur,carre_largeur);
+        context.fillRect(snaker.body[1].x, snaker.body[1].y,carre_hauteur,carre_largeur);
+        context.fillRect(snaker.body[2].x, snaker.body[2].y,carre_hauteur,carre_largeur);
+        context.fillRect(snaker.body[3].x, snaker.body[3].y,carre_hauteur,carre_largeur);
+        context.fillRect(snaker.body[4].x, snaker.body[4].y,carre_hauteur,carre_largeur);
+        
+    }
+	
+    function deplacement(e) 
+    {
+		//alert(e.keyCode);
+        if (e.keyCode == 40) //pour descendre 39 droite 38 haut 37 gauche
+        {
+          orientation="bas";
+        }
+        else if (e.keyCode == 38)
+        {
+           orientation="haut";
+        }
+        else if (e.keyCode == 37)
+        {
+          orientation="gauche"
+        }
+        else if (e.keyCode == 39)
+        {
+          orientation="droite"
+        }
+    }
+	
+    function refreshGame() {
+
+	    // On efface la zone
+	    context.clearRect(0, 0, ZONE_JEU_WIDTH, ZONE_JEU_HEIGHT);
+
+		//SnakeInit();
+	    // Puis on réaffiche le nécessaire
+        /*carreX = getRandomMinMax(0,ZONE_JEU_WIDTH-carre_hauteur);
+        carreY = getRandomMinMax(0,ZONE_JEU_HEIGHT-carre_largeur);
+        context.fillStyle = "red";
+	    context.fillRect(carreX,carreY,carre_hauteur,carre_largeur);*/
+        
+        switch(orientation)
+        {
+        	case "bas" : snaker.body[0].y+=10;
+                         if (snaker.body[0].y>300)
+                             SnakeInit();
+                             
+                         for(i=1;i<5;i++)
+                         {
+                         	if(snaker.body[i].x!=snaker.body[0].x)
+                            {                            		
+                               snaker.body[i].x+=10;
+      						   //on doit faire bouffer les points 
+                               //bug quand descend et tourne a gauche (droite ok) car probleme de calcul y (+/- ?)
+                            }
+                            else
+                            	snaker.body[i].y+=10;
+                         }
+                         
+                         break;
+                         
+            case "haut" :snaker.body[0].y-=10;
+                         if (snaker.body[0].y<0)
+                             SnakeInit();
+                             
+                         for(i=1;i<5;i++)
+                         {
+                         	if(snaker.body[i].x!=snaker.body[0].x)
+                            	snaker.body[i].x+=10;
+                            else
+                            	snaker.body[i].y-=10;
+                         } 
+                         break;
+            
+            case "droite" : snaker.body[0].x+=10;
+                         if (snaker.body[0].x>400)
+                             SnakeInit();
+                             
+                         for(i=1;i<5;i++)
+                         {
+                         	if(snaker.body[i].y!=snaker.body[0].y)
+                            	snaker.body[i].y+=10;
+                            else
+                            	snaker.body[i].x+=10;
+                         }
+                         break;
+                             
+            case "gauche" : snaker.body[0].x-=10;
+                         if (snaker.body[0].x<0)
+                             SnakeInit();
+                             
+                         for(i=1;i<5;i++)
+                         {
+                         	if(snaker.body[i].y!=snaker.body[0].y)
+                            	snaker.body[i].y-=10;
+                            else
+                            	snaker.body[i].x-=10;
+                         }
+                         break;
+        }
+        
+        context.fillStyle = "green";
+	    context.fillRect(snaker.body[0].x, snaker.body[0].y,carre_hauteur,carre_largeur);
+        context.fillRect(snaker.body[1].x, snaker.body[1].y,carre_hauteur,carre_largeur);
+        context.fillRect(snaker.body[2].x, snaker.body[2].y,carre_hauteur,carre_largeur);
+        context.fillRect(snaker.body[3].x, snaker.body[3].y,carre_hauteur,carre_largeur);
+        context.fillRect(snaker.body[4].x, snaker.body[4].y,carre_hauteur,carre_largeur);
+    }
+    
+    function getRandomMinMax(min,max) {
+   return Math.floor(Math.random()*(max-min))+min;
+    }
+ 
+</script>
+
+<h1>Snake</h1>
+<div id="conteneur">
+	<canvas id="canvasElem" width="400" height="300">
+		Votre navigateur ne supporte pas la fonctionnalité Canvas.
+	</canvas>
+</div>
