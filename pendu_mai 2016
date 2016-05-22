@@ -1,0 +1,48 @@
+<style type="text/css">
+	body {background: #000;}
+	#conteneur {width: 525px;height: 325px;border: 1px solid #333;
+    			margin: 0 auto;background: #FFF;text-align: center;}
+	h1 {text-align: center;font-variant: small-caps;color: #FFF;}
+	p {text-align: center;font-variant: small-caps;color: #FFF;}
+</style>
+
+<script>
+
+	mots = ["papillon", "ordinateur", "table", "chaise", "oiseau", "chien", "chat", "souris", "maison", "anticonstitutionnellement"]
+    var motchoisi = mots[getRandomMinMax(0,9)];
+    
+    window.addEventListener('load', function () {
+	    // On récupère l'objet canvas pour dessiner dedans
+	    context = document.getElementById('canvasElem').getContext('2d');
+    	
+        draw();
+
+	}, false);
+    
+    function draw()
+    {
+    context.fillStyle = "black";
+    context.fillRect(60,25,10,275);
+    context.fillRect(60,25,100,10);
+    context.fillRect(160,25,10,25);
+    context.fillRect(30,300,70,10);
+	motchoisi.Length();
+    for (i=0; i<motchoisi.Length(); i++)
+    	{
+    	context.fillRect(225,250,10,2);
+    	}
+    }
+
+	function getRandomMinMax(min,max) 
+   	{
+   		return Math.floor(Math.random()*(max-min))+min;
+  	}
+
+</script>
+
+<h1>Pendu</h1>
+<div id="conteneur">
+	<canvas id="canvasElem" width="525" height="325">
+		Votre navigateur ne supporte pas la fonctionnalité Canvas.
+	</canvas>
+</div>
