@@ -121,5 +121,10 @@ function miam(spriteA,spriteB)
  spriteB.reset(newx,newy)
  
 }
-    
+
+RENDER :
+function render() 
+{
+    game.debug.body(sprite);
+}
 
