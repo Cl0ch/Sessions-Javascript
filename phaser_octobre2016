@@ -1,0 +1,125 @@
+PRELOAD :
+function preload() {
+
+    game.load.baseURL = 'http://examples.phaser.io/assets/';
+    game.load.crossOrigin = 'anonymous';
+
+    game.load.image('phaser', 'sprites/phaser-dude.png');
+    game.load.image('orb', 'sprites/orb-red.png');
+
+    game.load.image('');
+
+    var frame0 = [
+	'...067776770....',
+	'..0676777670....',
+	'..07676777660...',
+	'..076676777660..',
+	'..068C88C6760...',
+	'..088C88C880....',
+	'...08888880.....',
+	'....088880......',
+	'...08F88E80.....',
+	'..087FFEE780....',
+	'..08FFE9E980....',
+	'.087FE9E99780...',
+	'0870BBABBA0780..',
+	'.000BAABAA000...',
+	'....080080......',
+	'...01100110.....'
+];
+game.create.texture('perso', frame0, 2, 2, 0);
+}
+
+CREATE :
+   
+    var sprite;
+    var arrows;
+    var orb;
+    var perso;
+    var stitch;
+
+function create() {
+
+    game.physics.startSystem(Phaser.Physics.Arcade);
+
+    game.stage.backgroundColor = "#FF9966";
+    
+    arrows = game.input.keyboard.createCursorKeys();
+    
+    sprite = game.add.sprite(0, 0, 'phaser');
+    game.physics.arcade.enable(sprite);
+    
+    orb = game.add.sprite(400,300,'orb');
+    game.physics.arcade.enable(orb);
+    orb.body.allowGravity = false;
+    
+    /*perso = game.add.sprite(400,0,'perso');
+    game.physics.arcade.enable(perso);*/
+    
+    /* = game.add.sprite(400,0,'');
+    game.physics.arcade.enable();*/
+    
+    game.physics.arcade.gravity.y = 98;
+    sprite.body.collideWorldBounds = true;
+    //perso.body.collideWorldBounds = true;
+    
+    orb.anchor.setTo(0.5,0.5);
+   
+}
+
+UPDATE :
+function update() 
+{
+    //sprite.x += 10;
+    //sprite.y += 6;
+    
+    sprite.body.velocity;
+    checkCursorKeys();
+    game.physics.arcade.overlap(sprite,orb,miam,null,this);
+
+    orb.body.angularVelocity = 100;
+
+}
+
+function checkCursorKeys() 
+{
+    if(arrows.left.isDown)
+    {
+        //sprite.x -= 15;
+        sprite.body.velocity.x = -100;
+    }
+    if(arrows.right.isDown)
+    {
+        //sprite.x += 15;
+        sprite.body.velocity.x = 100;
+    }
+    if(arrows.up.isDown)
+    {
+        //sprite.y -= 15;
+        sprite.body.velocity.y = -100;
+    }
+    if(arrows.down.isDown)
+    {
+        //sprite.y += 15;
+        sprite.body.velocity.y = 100;
+    }
+}
+
+function miam(spriteA,spriteB)
+{
+ //console.log("ok");
+ //orb.destroy();
+ 
+ /*
+    sprite.isAlive ?
+    sprite.kill();
+    sprite.reset(x,y);
+*/
+ 
+ var newx = game.rnd.integerInRange(200,600);
+ var newy = game.rnd.integerInRange(150,550);
+ spriteB.reset(newx,newy)
+ 
+}
+    
+
