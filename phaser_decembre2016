@@ -1,0 +1,143 @@
+PRELOAD
+function preload() {
+
+    game.load.baseURL = 'http://examples.phaser.io/assets/';
+    game.load.crossOrigin = 'anonymous';
+
+    game.load.image('phaser', 'sprites/phaser-dude.png');
+
+    var wall = [
+        '11111111',
+        '11111111',
+        '11111111',
+        '11111111',
+        '11111111',
+        '11111111',
+        '11111111',
+        '11111111'
+        ]
+game.create.texture('wall',wall,6,6,0);
+
+}
+
+CREATE
+    var sprite;
+    var arrows;
+    var speed = 100;
+    var jump = -250;
+    var walls;
+    var triggers;
+    var gameover = false;
+    var score = 0;
+    var scoreText;
+
+function create() {
+    
+    game.stage.backgroundColor = "#000010";
+    
+    arrows = game.input.keyboard.createCursorKeys();
+    
+    game.physics.startSystem(Phaser.Physics.Arcade);
+    
+    sprite = game.add.sprite(400,300, 'phaser');
+    game.physics.arcade.enable(sprite);
+    game.physics.arcade.gravity.y = 300;
+    sprite.body.collideWorldBounds = true;
+    sprite.isCrossing = false;
+    
+    walls = game.add.group();
+    walls.add(game.add.tileSprite(1050,0,100,300,'wall'));
+    walls.add(game.add.tileSprite(1050,500,100,600,'wall'));
+    walls.add(game.add.tileSprite(1400,0,100,100,'wall'));
+    walls.add(game.add.tileSprite(1400,300,100,600,'wall'));
+    walls.add(game.add.tileSprite(1750,0,100,200,'wall'));
+    walls.add(game.add.tileSprite(1750,400,100,600,'wall'));
+    
+    game.physics.arcade.enable(walls);
+    walls.setAll('body.allowGravity',false);
+    walls.setAll('body.collideWorldBounds',false);
+    
+    triggers = game.add.group();
+    triggers.add(game.add.sprite(1050,300,null));
+    triggers.add(game.add.sprite(1400,100,null));
+    triggers.add(game.add.sprite(1750,200,null));
+    
+    game.physics.arcade.enable(triggers);
+    triggers.setAll('body.allowGravity',false);
+    triggers.setAll('body.collideWorldBounds',false);
+    triggers.forEach(giveSize);
+    
+    scoreText = game.add.text(675,25,"score : " + score,{fill: "#FFFFFF", font: "24px Lobster", align: "center"});
+   
+}
+
+function giveSize(item)
+{
+    item.body.setSize(100,200);
+}
+
+UPDATE
+var isCrossing = false;
+        
+function update() 
+{
+    if(!gameover)
+    {
+        //sprite.body.velocity;
+        checkCursorKeys();
+    
+        walls.forEach(move);
+        game.physics.arcade.collide(sprite,walls,paf);
+        triggers.forEach(move);
+        
+        game.physics.arcade.overlap(sprite,triggers,reset);
+        
+        if(sprite.isCrossing && !isCrossing)
+        {
+            score += 1;
+            sprite.isCrossing = false;
+        }
+        scoreText.text = "score : " + score;
+        
+    }
+
+}
+
+function checkCursorKeys() 
+{
+
+    if(arrows.up.downDuration(50))
+    {
+        sprite.body.velocity.y = jump;
+    }
+
+}
+
+function move(item)
+{
+    item.body.velocity.x = -400;
+    
+    if(item.x <= -100)
+    {
+        item.x = 1050;
+    }
+}
+
+function paf(sprite,wall)
+{
+    gameover = true;
+    game.physics.arcade.disable(sprite);
+}
+
+function reset(sprite,trigger)
+{
+    isCrossing = true;
+    sprite.isCrossing = true;
+}
+
+RENDER
+function render() 
+{
+    //game.debug.body(sprite);
+    //game.debug.body();
+}
