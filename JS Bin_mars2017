@@ -1,0 +1,67 @@
+/*var joueur =
+    {
+      nom : "Chloé",
+      sexe : "femme",
+      experience : "100",
+      
+    };
+console.log("Bonjour " + joueur.nom + " (" + joueur.experience + "xp)");*/
+
+
+function JoueurConstructor()   // constructeur
+{
+  var nom = "Chloé";       // this = public; var = privé
+  this.age = 17;
+  var exp = 150;
+  this.afficher = function()
+    {
+      return nom + " (" + exp + "xp)";
+    }
+  this.getNom = function()
+  {
+    return nom;
+  }
+  this.setNom = function(nouveau)
+  {
+    nom = nouveau;
+  }
+};
+var Chloé = new JoueurConstructor();
+console.log("Bonjour " + Chloé.afficher());
+Chloé.setNom("Céline");
+console.log(Chloé.getNom());
+
+Chloé.exp = Chloé.exp + 50;
+console.log("new exp : " + Chloé.exp + "xp");
+
+var d = new Date();
+console.log(d.toDateString());
+
+function JeuConstructor()
+{
+  this.Joueurs = [];
+  this.créerJoueurs = function()
+    {
+      var joueur1 = new JoueurConstructor();
+      var joueur2 = new JoueurConstructor();
+      this.Joueurs = [joueur1, joueur2];
+    }
+  this.ajouterJoueur = function(joueur)
+    {
+      this.Joueurs.push(joueur);
+    }
+  this.afficherJoueurs = function()
+    {
+      for(var i=0; i< this.Joueurs.length ; i++)
+        {
+          console.log(this.Joueurs[i].afficher());
+        }
+    }
+}
+var jeu = new JeuConstructor();
+jeu.créerJoueurs();
+
+var newJoueur = new JoueurConstructor();
+newJoueur.setNom("Manon");
+jeu.ajouterJoueur(newJoueur);
+jeu.afficherJoueurs();
