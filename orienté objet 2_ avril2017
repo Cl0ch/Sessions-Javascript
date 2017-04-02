@@ -1,0 +1,48 @@
+var commande = [];
+
+function voiture(coul = "noire")
+{
+  this.siege = new siege();
+  this.couleur = coul;
+  this.vitesse = 315;
+  this.marque = "BMW";
+  
+  this.clone = function()
+  {
+    var v = new voiture();
+    v.siege = this.siege;
+    v.couleur = this.couleur;
+    v.vitesse = this.vitesse;
+    v.marque = this.marque;
+    return v;
+  }
+}
+commande.push(new voiture());
+
+function siege()
+{
+  this.couleur = "noir";
+  this.nombre = 5;
+  this.matiere = "cuir";
+}
+
+var Ferrari = new voiture("rouge");
+Ferrari.siege.nombre = 2;
+Ferrari.vitesse = 415;
+Ferrari.marque = "Ferrari";
+commande.push(Ferrari);
+
+var Mercedes = new voiture();
+Mercedes.couleur = "jaune";
+Mercedes.marque = "Mercedes";
+commande.push(Mercedes);
+
+var Ferrari2 = Ferrari.clone();
+Ferrari2.couleur = "verte";
+console.log(Ferrari.couleur);
+
+for(i=0; i<50; i++)
+  {
+    commande.push(Ferrari2);
+  }
+console.log(commande.length);
